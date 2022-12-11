@@ -1,0 +1,3 @@
+# Project exclude paths
+/src/main/java/ru/kata/spring/boot_security/demo/excluded/
+/target/

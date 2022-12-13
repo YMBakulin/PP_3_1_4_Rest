@@ -39,7 +39,7 @@ $(async function () {
 });
 
 async function thisUser() {
-    fetch("http://localhost:8080/rs/admin/authUser")
+    fetch("http://localhost:8080/rs/admin/authAdmin")
         .then(res => res.json())
         .then(data => {
             // авторизированный пользователь

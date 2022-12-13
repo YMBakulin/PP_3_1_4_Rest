@@ -40,8 +40,8 @@ public class RestAdmin {
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @GetMapping("/authUser")
-    public ResponseEntity<UserDTO> authenticatedUser(Principal principal) {
+    @GetMapping("/authAdmin")
+    public ResponseEntity<UserDTO> authAdmin(Principal principal) {
         return new ResponseEntity<>(dtoService.convertUserToDTO((User) userDetailsService
                 .loadUserByUsername(principal.getName())), HttpStatus.OK);
     }
@@ -52,7 +52,7 @@ public class RestAdmin {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> edit(@PathVariable("id") int id) {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") int id) {
         return new ResponseEntity<>(dtoService.convertUserToDTO(userService.getUserById(id)), HttpStatus.OK);
     }
 

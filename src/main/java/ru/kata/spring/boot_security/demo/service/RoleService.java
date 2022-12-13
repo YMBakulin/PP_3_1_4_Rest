@@ -14,5 +14,7 @@ public interface RoleService {
 
     List<String> getListOfNamesUserRoles(User user);
 
-    Set<Role> loadRolesToNewUser (User user);
+    Set<Role> loadRolesToNewUser(User user);
+
+    void addRole(Role role);
 }

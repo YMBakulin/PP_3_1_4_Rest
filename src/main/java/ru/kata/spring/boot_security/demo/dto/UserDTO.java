@@ -2,15 +2,14 @@ package ru.kata.spring.boot_security.demo.dto;
 
 import ru.kata.spring.boot_security.demo.model.Role;
 
-import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 import java.util.Set;
 
 public class UserDTO {
-
     private Long id;
 
     @NotEmpty(message = "Username is required")
@@ -18,7 +17,6 @@ public class UserDTO {
     private String username;
 
     @NotEmpty(message = "Password is required")
-    @Size(min = 3, max = 10, message = "Password must be between 3 and 10 characters")
     private String password;
 
     @NotEmpty(message = "Name is required")
@@ -32,12 +30,7 @@ public class UserDTO {
     @Email(message = "Email is not valid")
     private String email;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
-            CascadeType.DETACH}, fetch = FetchType.LAZY)
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-
 
     public Long getId() {
         return id;
@@ -93,5 +86,31 @@ public class UserDTO {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserDTO)) return false;
+        UserDTO userDTO = (UserDTO) o;
+        return age == userDTO.age && id.equals(userDTO.id) && username.equals(userDTO.username) && password.equals(userDTO.password) && fullname.equals(userDTO.fullname) && Objects.equals(email, userDTO.email) && roles.equals(userDTO.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, fullname, age, email, roles);
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

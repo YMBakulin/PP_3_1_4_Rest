@@ -9,15 +9,14 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
-public class User implements UserDetails{
+@Table(name = "users")
+public class User implements UserDetails {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -27,7 +26,6 @@ public class User implements UserDetails{
     private String username;
 
     @NotEmpty(message = "Password is required")
-    @Size(min = 3, max = 10, message = "Password must be between 3 and 10 characters")
     @Column(name = "password")
     private String password;
 
@@ -35,32 +33,30 @@ public class User implements UserDetails{
     @Size(min = 2, max = 30, message = "fullname should be between 2 and 30 characters")
     @Column(name = "fullname")
     private String fullname;
+
     @Min(value = 12, message = "Age should be greater than 12")
     @Column(name = "age")
     private byte age;
+
     @NotEmpty(message = "Email is required")
     @Email(message = "Email is not valid")
     @Column(name = "email")
     private String email;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
-            CascadeType.DETACH}, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @Transient
-    private String stringOfAllUserRoles;
-
-    public String getStringOfAllUserRoles() {
-        return stringOfAllUserRoles;
-    }
-
-    public void setStringOfAllUserRoles(String stringOfAllUserRoles) {
-        this.stringOfAllUserRoles = stringOfAllUserRoles;
-    }
-
     public User() {
+    }
+
+    public User(String username, String password, String fullname, byte age, String email) {
+        this.username = username;
+        this.password = password;
+        this.fullname = fullname;
+        this.age = age;
+        this.email = email;
     }
 
     public User(Long id, String username, String password, String fullname, byte age, String email, Set<Role> userRole) {
@@ -154,17 +150,17 @@ public class User implements UserDetails{
         return getRoles();
     }
 
-    public String getStringOfRoles(User user) {
-        StringBuilder str = new StringBuilder();
-        Set<Role> roles = user.getRoles();
-        Iterator<Role> iterator = roles.iterator();
-        while (iterator.hasNext()) {
-            str.append(iterator.next().getRole().substring(5));
-            if (iterator.hasNext()){
-                str.append(", ");
-            }
-        }
-        return str.toString();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return age == user.age && id.equals(user.id) && username.equals(user.username) && password.equals(user.password) && fullname.equals(user.fullname) && Objects.equals(email, user.email) && roles.equals(user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, fullname, age, email, roles);
     }
 
     @Override
@@ -178,6 +174,4 @@ public class User implements UserDetails{
                 ", email='" + email + '\'' +
                 '}';
     }
-
-
 }

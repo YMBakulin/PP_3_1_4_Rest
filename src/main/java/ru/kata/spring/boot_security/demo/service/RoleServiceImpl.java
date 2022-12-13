@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
@@ -20,22 +19,27 @@ public class RoleServiceImpl implements RoleService {
         this.roleRepository = roleRepository;
     }
 
+    @Override
     public List<Role> getAllRoles() {
-       return roleRepository.findAll();
+        return roleRepository.findAll();
     }
 
+    @Override
     public Role getRoleById(long id) {
         return roleRepository.getById(id);
     }
 
+    @Override
     public List<String> getListOfNamesUserRoles(User user) {
         return user.getRoles().stream()
-               .map(x -> x.getRole().substring(5))
-               .sorted().collect(Collectors.toList());
+                .map(x -> x.getRole().substring(5))
+                .sorted().collect(Collectors.toList());
     }
 
-    public Set<Role> loadRolesToNewUser (User user) {
-        List<Long> rolesId = user.getRoles().stream().map(r -> r.getId()).collect(Collectors.toList());
+    @Override
+    public Set<Role> loadRolesToNewUser(User user) {
+        List<Long> rolesId = user.getRoles().stream()
+                .map(r -> r.getId()).collect(Collectors.toList());
         Set<Role> rolesLoaded = new HashSet<>();
         for (Long roleHash : rolesId) {
             rolesLoaded.add(getRoleById(roleHash));
@@ -43,4 +47,8 @@ public class RoleServiceImpl implements RoleService {
         return rolesLoaded;
     }
 
+    @Override
+    public void addRole(Role role) {
+        roleRepository.save(role);
+    }
 }

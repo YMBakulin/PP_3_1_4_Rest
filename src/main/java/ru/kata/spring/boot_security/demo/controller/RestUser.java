@@ -25,7 +25,7 @@ public class RestUser {
     }
 
     @GetMapping("/authUser")
-    public ResponseEntity<UserDTO> authUser(Principal principal) {
+    public ResponseEntity<UserDTO> getAuthenticatedUser(Principal principal) {
         return new ResponseEntity<>(dtoService.convertUserToDTO((User) userDetailsService
                 .loadUserByUsername(principal.getName())), HttpStatus.OK);
     }

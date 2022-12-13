@@ -41,7 +41,7 @@ public class RestAdmin {
     }
 
     @GetMapping("/authAdmin")
-    public ResponseEntity<UserDTO> authAdmin(Principal principal) {
+    public ResponseEntity<UserDTO> getAuthenticatedAdmin(Principal principal) {
         return new ResponseEntity<>(dtoService.convertUserToDTO((User) userDetailsService
                 .loadUserByUsername(principal.getName())), HttpStatus.OK);
     }

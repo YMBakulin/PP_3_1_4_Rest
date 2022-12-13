@@ -1,33 +1,20 @@
 package ru.kata.spring.boot_security.demo.dto;
 
 import ru.kata.spring.boot_security.demo.model.Role;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
 
 public class UserDTO {
     private Long id;
 
-    @NotEmpty(message = "Username is required")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String username;
 
-    @NotEmpty(message = "Password is required")
     private String password;
 
-    @NotEmpty(message = "Name is required")
-    @Size(min = 2, max = 30, message = "fullname should be between 2 and 30 characters")
     private String fullname;
 
-    @Min(value = 12, message = "Age should be greater than 12")
     private byte age;
 
-    @NotEmpty(message = "Email is required")
-    @Email(message = "Email is not valid")
     private String email;
 
     private Set<Role> roles;

@@ -51,7 +51,7 @@ public class RestAdmin {
         return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserDTO> edit(@PathVariable("id") int id) {
         return new ResponseEntity<>(dtoService.convertUserToDTO(userService.getUserById(id)), HttpStatus.OK);
     }
@@ -59,7 +59,7 @@ public class RestAdmin {
     @PostMapping()
     public ResponseEntity<HttpStatus> addNewUser(@RequestBody UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            //TODO
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         User newUser = dtoService.convertDTOToUser(userDTO);
         newUser.setRoles(roleService.loadRolesToNewUser(newUser));
@@ -76,7 +76,7 @@ public class RestAdmin {
     @PatchMapping("/{id}")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDTO userDTO, @PathVariable("id") long id, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            //TODO
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         userDTO.setId(id);
         User user = dtoService.convertDTOToUser(userDTO);

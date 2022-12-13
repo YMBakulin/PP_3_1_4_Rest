@@ -1,9 +1,9 @@
-
 // Show All User
-$(async function() {
+$(async function () {
     await showAllUsers();
 });
 const table = $('#getAllUserTable');
+
 async function showAllUsers() {
     table.empty()
     fetch("http://localhost:8080/rs/admin")
@@ -31,11 +31,13 @@ async function showAllUsers() {
             })
         })
 }
+
 // Show Active User
 
-$(async function() {
+$(async function () {
     await thisUser();
 });
+
 async function thisUser() {
     fetch("http://localhost:8080/rs/admin/authUser")
         .then(res => res.json())
@@ -104,7 +106,7 @@ async function newUser() {
                 roles: userRoles
             })
         })
-        if(response.ok){
+        if (response.ok) {
             form.reset();
             showAllUsers();
             $('#allUsersTable').click();
@@ -118,10 +120,11 @@ async function newUser() {
 
 // Edit User - Json
 
-$(async function() {
+$(async function () {
     editUser();
 
 });
+
 function editUser() {
     const editForm = document.forms["formEditUser"];
     editForm.addEventListener("submit", async ev => {
@@ -149,7 +152,7 @@ function editUser() {
                 roles: editUserRoles
             })
         })
-        if (response.ok){
+        if (response.ok) {
             $('#editFormCloseButton').click();
             showAllUsers();
         } else {
@@ -179,7 +182,6 @@ async function showEditModal(id) {
     form.password.value = user.password;
 
 
-
     await fetch("http://localhost:8080/rs/admin/roles")
         .then(res => res.json())
         .then(roles => {
@@ -202,11 +204,12 @@ async function showEditModal(id) {
 
 // Json Delete User
 
-$(async function() {
+$(async function () {
 
     removeUser();
 });
-function removeUser(){
+
+function removeUser() {
     const deleteForm = document.forms["formDeleteUser"];
     deleteForm.addEventListener("submit", ev => {
         ev.preventDefault();
@@ -261,8 +264,9 @@ async function showDeleteModal(id) {
             })
         });
 }
+
 async function getUser(id) {
-    let url = "http://localhost:8080/rs/admin/edit/" + id;
+    let url = "http://localhost:8080/rs/admin/" + id;
     let response = await fetch(url);
     return await response.json();
 }

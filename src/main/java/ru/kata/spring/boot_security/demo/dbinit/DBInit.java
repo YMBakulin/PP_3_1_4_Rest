@@ -45,11 +45,11 @@ public class DBInit {
         userRoles.add(roleUser);
 
         // login: admin; pass: admin
-        User admin = new User("admin", "$2a$12$zeefW0k9MsLZkB9RroFd3uH3BjixlT.lDq4ka9JsnXz3m7Ni6wYay"
+        User admin = new User("admin", "admin"
                 , "Stephen King", (byte) 74, "stking@gmail.com");
 
         // login: user; pass: user
-        User user = new User("user", "$2a$12$iS8bIBzagTLGrNp5DJ5SNOeaVMOzKJSKP5R9Kqc5QfVKysGckOiKq"
+        User user = new User("user", "user"
                 , "Jason Voorhees", (byte) 40, "jason@gmail.com");
 
         admin.setRoles(adminRoles);
